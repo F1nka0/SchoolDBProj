@@ -18,8 +18,20 @@ namespace SchoolDB
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
+    /// 
+    class Types {
+
+        public static Lesson lesson;
+        public static Mark mark;
+        public static Palor palor;
+        public static Pupil pupil;
+        public static ReportCard reportCard;
+        public static Schedule schedule;
+        public static Teacher teacher;
+    }
     public partial class MainWindow : Window
     {
+        
         SchoolDBEntities a = null;
         public MainWindow()
         {
@@ -36,21 +48,28 @@ namespace SchoolDB
         }
         private async void OnTableSelected(object sender, SelectionChangedEventArgs e) {
 
+            
             IEnumerable<object> tables = null;
             var b = Dispatcher.Invoke(() => { return Tables.SelectedItem; });
+            
             switch (debugText.Text = Dispatcher.Invoke(() => { return Tables.SelectedItem; }).ToString())
             {
+                
+                case "Schedule": tables = await (Task.Run(() => { return a.Database.SqlQuery<Schedule>($"select * from {b}"); })); break;
+                case "Lesson": tables = await (Task.Run(() => { return a.Database.SqlQuery<Lesson>($"select * from {b}"); })); break;
                 case "Mark": tables = await (Task.Run(() => { return a.Database.SqlQuery<Mark>($"select * from {b}"); })); break;
                 case "Palor": tables = await (Task.Run(() => { return a.Database.SqlQuery<Palor>($"select * from {b}"); })); break;
                 case "Pupil": tables = await (Task.Run(() => { return a.Database.SqlQuery<Pupil>($"select * from {b}"); })); break;
                 case "ReportCard": tables = await (Task.Run(() => { return a.Database.SqlQuery<ReportCard>($"select * from {b}"); })); break;
                 case "Teacher": tables = await (Task.Run(() => { return a.Database.SqlQuery<Teacher>($"select * from {b}"); })); break;
             }
+            
             SelectedData.ItemsSource = tables.ToList();
+            
         }
     }
-    public class DataReport<T> { 
-        
+    public class TypeContainer { 
+         
     }
 }
 /*
