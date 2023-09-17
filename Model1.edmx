@@ -1,0 +1,445 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище SchoolDBModel" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Lesson">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LessonName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="PalorFK" Type="int" />
+          <Property Name="ScheduleFK" Type="int" />
+        </EntityType>
+        <EntityType Name="Mark">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Mark1" Type="int" Nullable="false" />
+          <Property Name="DateOfMark" Type="datetime" Nullable="false" />
+          <Property Name="ReportCardFK2" Type="int" />
+        </EntityType>
+        <EntityType Name="Palor">
+          <Key>
+            <PropertyRef Name="Number" />
+          </Key>
+          <Property Name="Number" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FloorNumber" Type="int" Nullable="false" />
+          <Property Name="Passport" Type="int" Nullable="false" />
+          <Property Name="Capacity" Type="int" />
+        </EntityType>
+        <EntityType Name="Pupil">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PupilName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Grade" Type="int" Nullable="false" />
+          <Property Name="PupilFK" Type="int" />
+        </EntityType>
+        <EntityType Name="ReportCard">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PupilFK" Type="int" />
+        </EntityType>
+        <EntityType Name="Schedule">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TeacherFK" Type="int" />
+        </EntityType>
+        <EntityType Name="Teacher">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TeacherName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="SubjectName" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Lesson__Schedule__6EF57B66">
+          <End Role="Schedule" Type="Self.Schedule" Multiplicity="0..1" />
+          <End Role="Lesson" Type="Self.Lesson" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Schedule">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Lesson">
+              <PropertyRef Name="ScheduleFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Mark__ReportCard__6E01572D">
+          <End Role="ReportCard" Type="Self.ReportCard" Multiplicity="0..1" />
+          <End Role="Mark" Type="Self.Mark" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReportCard">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Mark">
+              <PropertyRef Name="ReportCardFK2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Pupil__PupilFK__6FE99F9F">
+          <End Role="Lesson" Type="Self.Lesson" Multiplicity="0..1" />
+          <End Role="Pupil" Type="Self.Pupil" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lesson">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Pupil">
+              <PropertyRef Name="PupilFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PalorFK1">
+          <End Role="Palor" Type="Self.Palor" Multiplicity="0..1" />
+          <End Role="Lesson" Type="Self.Lesson" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Palor">
+              <PropertyRef Name="Number" />
+            </Principal>
+            <Dependent Role="Lesson">
+              <PropertyRef Name="PalorFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PupilFK1">
+          <End Role="Pupil" Type="Self.Pupil" Multiplicity="0..1" />
+          <End Role="ReportCard" Type="Self.ReportCard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pupil">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ReportCard">
+              <PropertyRef Name="PupilFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TeacherFK1">
+          <End Role="Teacher" Type="Self.Teacher" Multiplicity="0..1" />
+          <End Role="Schedule" Type="Self.Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teacher">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Schedule">
+              <PropertyRef Name="TeacherFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище SchoolDBModelContainer">
+          <EntitySet Name="Lesson" EntityType="Self.Lesson" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Mark" EntityType="Self.Mark" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Palor" EntityType="Self.Palor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pupil" EntityType="Self.Pupil" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReportCard" EntityType="Self.ReportCard" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Schedule" EntityType="Self.Schedule" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Teacher" EntityType="Self.Teacher" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Lesson__Schedule__6EF57B66" Association="Self.FK__Lesson__Schedule__6EF57B66">
+            <End Role="Schedule" EntitySet="Schedule" />
+            <End Role="Lesson" EntitySet="Lesson" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Mark__ReportCard__6E01572D" Association="Self.FK__Mark__ReportCard__6E01572D">
+            <End Role="ReportCard" EntitySet="ReportCard" />
+            <End Role="Mark" EntitySet="Mark" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Pupil__PupilFK__6FE99F9F" Association="Self.FK__Pupil__PupilFK__6FE99F9F">
+            <End Role="Lesson" EntitySet="Lesson" />
+            <End Role="Pupil" EntitySet="Pupil" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PalorFK1" Association="Self.FK_PalorFK1">
+            <End Role="Palor" EntitySet="Palor" />
+            <End Role="Lesson" EntitySet="Lesson" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PupilFK1" Association="Self.FK_PupilFK1">
+            <End Role="Pupil" EntitySet="Pupil" />
+            <End Role="ReportCard" EntitySet="ReportCard" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TeacherFK1" Association="Self.FK_TeacherFK1">
+            <End Role="Teacher" EntitySet="Teacher" />
+            <End Role="Schedule" EntitySet="Schedule" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SchoolDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Lesson">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LessonName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PalorFK" Type="Int32" />
+          <Property Name="ScheduleFK" Type="Int32" />
+          <NavigationProperty Name="Schedule" Relationship="Self.FK__Lesson__Schedule__6EF57B66" FromRole="Lesson" ToRole="Schedule" />
+          <NavigationProperty Name="Pupil" Relationship="Self.FK__Pupil__PupilFK__6FE99F9F" FromRole="Lesson" ToRole="Pupil" />
+          <NavigationProperty Name="Palor" Relationship="Self.FK_PalorFK1" FromRole="Lesson" ToRole="Palor" />
+        </EntityType>
+        <EntityType Name="Mark">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Mark1" Type="Int32" Nullable="false" />
+          <Property Name="DateOfMark" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ReportCardFK2" Type="Int32" />
+          <NavigationProperty Name="ReportCard" Relationship="Self.FK__Mark__ReportCard__6E01572D" FromRole="Mark" ToRole="ReportCard" />
+        </EntityType>
+        <EntityType Name="Palor">
+          <Key>
+            <PropertyRef Name="Number" />
+          </Key>
+          <Property Name="Number" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FloorNumber" Type="Int32" Nullable="false" />
+          <Property Name="Passport" Type="Int32" Nullable="false" />
+          <Property Name="Capacity" Type="Int32" />
+          <NavigationProperty Name="Lesson" Relationship="Self.FK_PalorFK1" FromRole="Palor" ToRole="Lesson" />
+        </EntityType>
+        <EntityType Name="Pupil">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PupilName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Grade" Type="Int32" Nullable="false" />
+          <Property Name="PupilFK" Type="Int32" />
+          <NavigationProperty Name="Lesson" Relationship="Self.FK__Pupil__PupilFK__6FE99F9F" FromRole="Pupil" ToRole="Lesson" />
+          <NavigationProperty Name="ReportCard" Relationship="Self.FK_PupilFK1" FromRole="Pupil" ToRole="ReportCard" />
+        </EntityType>
+        <EntityType Name="ReportCard">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PupilFK" Type="Int32" />
+          <NavigationProperty Name="Mark" Relationship="Self.FK__Mark__ReportCard__6E01572D" FromRole="ReportCard" ToRole="Mark" />
+          <NavigationProperty Name="Pupil" Relationship="Self.FK_PupilFK1" FromRole="ReportCard" ToRole="Pupil" />
+        </EntityType>
+        <EntityType Name="Schedule">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TeacherFK" Type="Int32" />
+          <NavigationProperty Name="Lesson" Relationship="Self.FK__Lesson__Schedule__6EF57B66" FromRole="Schedule" ToRole="Lesson" />
+          <NavigationProperty Name="Teacher" Relationship="Self.FK_TeacherFK1" FromRole="Schedule" ToRole="Teacher" />
+        </EntityType>
+        <EntityType Name="Teacher">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TeacherName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SubjectName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Schedule" Relationship="Self.FK_TeacherFK1" FromRole="Teacher" ToRole="Schedule" />
+        </EntityType>
+        <Association Name="FK__Lesson__Schedule__6EF57B66">
+          <End Role="Schedule" Type="Self.Schedule" Multiplicity="0..1" />
+          <End Role="Lesson" Type="Self.Lesson" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Schedule">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Lesson">
+              <PropertyRef Name="ScheduleFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Pupil__PupilFK__6FE99F9F">
+          <End Role="Lesson" Type="Self.Lesson" Multiplicity="0..1" />
+          <End Role="Pupil" Type="Self.Pupil" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lesson">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Pupil">
+              <PropertyRef Name="PupilFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PalorFK1">
+          <End Role="Palor" Type="Self.Palor" Multiplicity="0..1" />
+          <End Role="Lesson" Type="Self.Lesson" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Palor">
+              <PropertyRef Name="Number" />
+            </Principal>
+            <Dependent Role="Lesson">
+              <PropertyRef Name="PalorFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Mark__ReportCard__6E01572D">
+          <End Role="ReportCard" Type="Self.ReportCard" Multiplicity="0..1" />
+          <End Role="Mark" Type="Self.Mark" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReportCard">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Mark">
+              <PropertyRef Name="ReportCardFK2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PupilFK1">
+          <End Role="Pupil" Type="Self.Pupil" Multiplicity="0..1" />
+          <End Role="ReportCard" Type="Self.ReportCard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pupil">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ReportCard">
+              <PropertyRef Name="PupilFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TeacherFK1">
+          <End Role="Teacher" Type="Self.Teacher" Multiplicity="0..1" />
+          <End Role="Schedule" Type="Self.Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teacher">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Schedule">
+              <PropertyRef Name="TeacherFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SchoolDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Lesson" EntityType="Self.Lesson" />
+          <EntitySet Name="Mark" EntityType="Self.Mark" />
+          <EntitySet Name="Palor" EntityType="Self.Palor" />
+          <EntitySet Name="Pupil" EntityType="Self.Pupil" />
+          <EntitySet Name="ReportCard" EntityType="Self.ReportCard" />
+          <EntitySet Name="Schedule" EntityType="Self.Schedule" />
+          <EntitySet Name="Teacher" EntityType="Self.Teacher" />
+          <AssociationSet Name="FK__Lesson__Schedule__6EF57B66" Association="Self.FK__Lesson__Schedule__6EF57B66">
+            <End Role="Schedule" EntitySet="Schedule" />
+            <End Role="Lesson" EntitySet="Lesson" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Pupil__PupilFK__6FE99F9F" Association="Self.FK__Pupil__PupilFK__6FE99F9F">
+            <End Role="Lesson" EntitySet="Lesson" />
+            <End Role="Pupil" EntitySet="Pupil" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PalorFK1" Association="Self.FK_PalorFK1">
+            <End Role="Palor" EntitySet="Palor" />
+            <End Role="Lesson" EntitySet="Lesson" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Mark__ReportCard__6E01572D" Association="Self.FK__Mark__ReportCard__6E01572D">
+            <End Role="ReportCard" EntitySet="ReportCard" />
+            <End Role="Mark" EntitySet="Mark" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PupilFK1" Association="Self.FK_PupilFK1">
+            <End Role="Pupil" EntitySet="Pupil" />
+            <End Role="ReportCard" EntitySet="ReportCard" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TeacherFK1" Association="Self.FK_TeacherFK1">
+            <End Role="Teacher" EntitySet="Teacher" />
+            <End Role="Schedule" EntitySet="Schedule" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище SchoolDBModelContainer" CdmEntityContainer="SchoolDBEntities">
+          <EntitySetMapping Name="Lesson">
+            <EntityTypeMapping TypeName="SchoolDBModel.Lesson">
+              <MappingFragment StoreEntitySet="Lesson">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="LessonName" ColumnName="LessonName" />
+                <ScalarProperty Name="PalorFK" ColumnName="PalorFK" />
+                <ScalarProperty Name="ScheduleFK" ColumnName="ScheduleFK" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Mark">
+            <EntityTypeMapping TypeName="SchoolDBModel.Mark">
+              <MappingFragment StoreEntitySet="Mark">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Mark1" ColumnName="Mark1" />
+                <ScalarProperty Name="DateOfMark" ColumnName="DateOfMark" />
+                <ScalarProperty Name="ReportCardFK2" ColumnName="ReportCardFK2" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Palor">
+            <EntityTypeMapping TypeName="SchoolDBModel.Palor">
+              <MappingFragment StoreEntitySet="Palor">
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="FloorNumber" ColumnName="FloorNumber" />
+                <ScalarProperty Name="Passport" ColumnName="Passport" />
+                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pupil">
+            <EntityTypeMapping TypeName="SchoolDBModel.Pupil">
+              <MappingFragment StoreEntitySet="Pupil">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="PupilName" ColumnName="PupilName" />
+                <ScalarProperty Name="Grade" ColumnName="Grade" />
+                <ScalarProperty Name="PupilFK" ColumnName="PupilFK" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReportCard">
+            <EntityTypeMapping TypeName="SchoolDBModel.ReportCard">
+              <MappingFragment StoreEntitySet="ReportCard">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="PupilFK" ColumnName="PupilFK" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Schedule">
+            <EntityTypeMapping TypeName="SchoolDBModel.Schedule">
+              <MappingFragment StoreEntitySet="Schedule">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="TeacherFK" ColumnName="TeacherFK" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Teacher">
+            <EntityTypeMapping TypeName="SchoolDBModel.Teacher">
+              <MappingFragment StoreEntitySet="Teacher">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="TeacherName" ColumnName="TeacherName" />
+                <ScalarProperty Name="SubjectName" ColumnName="SubjectName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

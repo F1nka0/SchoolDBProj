@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="86518046bda8472ab923ba5e11ba7a78" Name="Diagram1">
+        <EntityTypeShape EntityType="SchoolDBModel.Lesson" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="SchoolDBModel.Mark" Width="1.5" PointX="12" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SchoolDBModel.Palor" Width="1.5" PointX="3" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SchoolDBModel.Pupil" Width="1.5" PointX="7.5" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="SchoolDBModel.ReportCard" Width="1.5" PointX="9.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SchoolDBModel.Schedule" Width="1.5" PointX="3" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SchoolDBModel.Teacher" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
+        <AssociationConnector Association="SchoolDBModel.FK__Lesson__Schedule__6EF57B66" ManuallyRouted="false" />
+        <AssociationConnector Association="SchoolDBModel.FK__Pupil__PupilFK__6FE99F9F" ManuallyRouted="false" />
+        <AssociationConnector Association="SchoolDBModel.FK_PalorFK1" ManuallyRouted="false" />
+        <AssociationConnector Association="SchoolDBModel.FK__Mark__ReportCard__6E01572D" ManuallyRouted="false" />
+        <AssociationConnector Association="SchoolDBModel.FK_PupilFK1" ManuallyRouted="false" />
+        <AssociationConnector Association="SchoolDBModel.FK_TeacherFK1" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
