@@ -9,8 +9,16 @@
         Background="Gray">
     <Grid x:Name="grid" >
         <DockPanel>
-
-            <ListBox Name="Tables" MaxWidth="400px" HorizontalAlignment="Left" Background="LightGray" Margin="20" />
+            <ListBox Name="Tables" MaxWidth="400px" HorizontalAlignment="Left" Background="LightGray" Margin="20" >
+                <ListBox.ItemTemplate >
+                    <DataTemplate >
+                        <DockPanel>
+                            <TextBlock Text="{Binding Path= Name}"/>
+                            <Button Name="AlterButton" Content="{Binding Path=Name}" Margin="10,0,0,0" ContentStringFormat="Alter {0}" Click="AlterButton_Click"/>
+                        </DockPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
             <DataGrid Name="SelectedData" Background="LightGray" MaxWidth="500px" HorizontalAlignment="Left"></DataGrid>
             <TextBlock HorizontalAlignment="Left" Background="red" Name="debugText" TextWrapping="Wrap" Text="TextBlock" />
         </DockPanel>

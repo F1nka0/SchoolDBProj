@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,60 +20,76 @@ namespace SchoolDB
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
     /// 
-    class Types {
+    public class Container {
 
-        public static Lesson lesson;
-        public static Mark mark;
-        public static Palor palor;
-        public static Pupil pupil;
-        public static ReportCard reportCard;
-        public static Schedule schedule;
-        public static Teacher teacher;
+        public static MainWindow mainWindow = new MainWindow();
+        public static SchoolDBEntities context = new SchoolDBEntities();
+        public static MarkWin markWindow = new MarkWin();
+
+    }
+    public class TableInfo {
+        public TableInfo(string name)
+        {
+
+            Name = name;
+
+        }
+        public string Name { get; set; }
+        public override string ToString()
+        {
+            return Name;
+        }
     }
     public partial class MainWindow : Window
     {
+        public static readonly DependencyProperty TextProperty;
         
-        SchoolDBEntities a = null;
+        static MainWindow() {
+            TextProperty = DependencyProperty.Register(
+                    "Text",
+                    typeof(Table),
+                    typeof(MainWindow)
+                    );
+        }
+        public IEnumerable<Table> Text { get; set; } 
         public MainWindow()
         {
             InitializeComponent();
-            a = new SchoolDBEntities();
             grid.Loaded += InitList;
             Tables.SelectionChanged += OnTableSelected;
-            
         }
         private async void InitList(object sender,EventArgs e) {
-            IEnumerable<Table> teachers = await Task.Run(() => { return a.Database.SqlQuery<Table>("SELECT name FROM sys.tables"); });
-            Tables.ItemsSource = teachers.Select(it=>it.Name).ToList();
-
+            IEnumerable<Table> teachers = await Task.Run(() => { return Dispatcher.Invoke<IEnumerable<Table>>(()=> { return Container.context.Database.SqlQuery<Table>("SELECT name FROM sys.tables"); }); });
+            Text = teachers.ToList();
+            Tables.ItemsSource = Text;
         }
         private async void OnTableSelected(object sender, SelectionChangedEventArgs e) {
-
-            
             IEnumerable<object> tables = null;
-            var b = Dispatcher.Invoke(() => { return Tables.SelectedItem; });
-            
-            switch (debugText.Text = Dispatcher.Invoke(() => { return Tables.SelectedItem; }).ToString())
+            var b = Dispatcher.Invoke(() => { return ((Table)Tables.SelectedItem).Name; });
+            switch (debugText.Text = Dispatcher.Invoke(() => { return Tables.SelectedItem as Table; }).Name.ToString())
             {
-                
-                case "Schedule": tables = await (Task.Run(() => { return a.Database.SqlQuery<Schedule>($"select * from {b}"); })); break;
-                case "Lesson": tables = await (Task.Run(() => { return a.Database.SqlQuery<Lesson>($"select * from {b}"); })); break;
-                case "Mark": tables = await (Task.Run(() => { return a.Database.SqlQuery<Mark>($"select * from {b}"); })); break;
-                case "Palor": tables = await (Task.Run(() => { return a.Database.SqlQuery<Palor>($"select * from {b}"); })); break;
-                case "Pupil": tables = await (Task.Run(() => { return a.Database.SqlQuery<Pupil>($"select * from {b}"); })); break;
-                case "ReportCard": tables = await (Task.Run(() => { return a.Database.SqlQuery<ReportCard>($"select * from {b}"); })); break;
-                case "Teacher": tables = await (Task.Run(() => { return a.Database.SqlQuery<Teacher>($"select * from {b}"); })); break;
+                #region DO NOT OPEN UNDER ANY CIRCUMSTANCES
+                case "Schedule": tables = await (Task.Run(() => { return Container.context.Database.SqlQuery<Schedule>($"select * from {b}"); })); break;
+                case "Lesson": tables = await (Task.Run(() => { return Container.context.Database.SqlQuery<Lesson>($"select * from {b}"); })); break;
+                case "Mark": tables = await (Task.Run(() => { return Container.context.Database.SqlQuery<Mark>($"select * from {b}"); })); break;
+                case "Palor": tables = await (Task.Run(() => { return Container.context.Database.SqlQuery<Palor>($"select * from {b}"); })); break;
+                case "Pupil": tables = await (Task.Run(() => { return Container.context.Database.SqlQuery<Pupil>($"select * from {b}"); })); break;
+                case "ReportCard": tables = await (Task.Run(() => { return Container.context.Database.SqlQuery<ReportCard>($"select * from {b}"); })); break;
+                case "Teacher": tables = await (Task.Run(() => { return Container.context.Database.SqlQuery<Teacher>($"select * from {b}"); })); break;
+                    #endregion
             }
-            
+
             SelectedData.ItemsSource = tables.ToList();
-            
+        }
+
+        private async void AlterButton_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (var win in Application.Current.Windows) {
+                if (((Window)win).ToString().Contains((sender as Button).Content.ToString())) {
+                    (win as Window).Show();
+                    break;
+                }
+            }
         }
     }
-    public class TypeContainer { 
-         
-    }
 }
-/*
-            List<Table> selected = (await Task.Run(() => { return a.Database.SqlQuery<Table>($"select * from {e.AddedItems[0].ToString()}"); })).ToList();
-            SelectedData.ItemsSource = selected.Select(it=>it).ToList();
- */
