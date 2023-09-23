@@ -25,7 +25,7 @@ namespace SchoolDB
         public static MainWindow mainWindow = new MainWindow();
         public static SchoolDBEntities context = new SchoolDBEntities();
         public static MarkWin markWindow = new MarkWin();
-
+        public static WindowCollection winCollection = Application.Current.Windows;
     }
     public class TableInfo {
         public TableInfo(string name)
@@ -81,10 +81,13 @@ namespace SchoolDB
 
             SelectedData.ItemsSource = tables.ToList();
         }
-
+        protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
         private async void AlterButton_Click(object sender, RoutedEventArgs e)
         {
-            foreach (var win in Application.Current.Windows) {
+            foreach (var win in Container.winCollection) {//судя по всему придётся переделать это на switch (sry)
                 if (((Window)win).ToString().Contains((sender as Button).Content.ToString())) {
                     (win as Window).Show();
                     break;

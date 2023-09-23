@@ -5,8 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SchoolDB"
         mc:Ignorable="d"
-        Title="MarkWin" Height="450" Width="800">
+        Title="MarkWin" Height="450" Width="800"
+        Background="Gray">
     <Grid>
-        
+        <DataGrid Name="BaseGrid" CellEditEnding="BaseGrid_SelectedCellsChanged" PreviewKeyDown="BaseGrid_PreviewKeyDown"/>
+
     </Grid>
 </Window>
