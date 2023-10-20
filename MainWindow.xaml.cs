@@ -21,10 +21,10 @@ namespace SchoolDB
     /// </summary>
     /// 
     public class Container {
-
+        private static MarkWin MarkWin = new MarkWin();
         public static MainWindow mainWindow = new MainWindow();
         public static SchoolDBEntities context = new SchoolDBEntities();
-        public static MarkWin markWindow = new MarkWin();
+        public static Window markWindow { get { return new MarkWin(); } set { markWindow = value; } }
         public static WindowCollection winCollection = Application.Current.Windows;
     }
     public class TableInfo {
@@ -89,7 +89,8 @@ namespace SchoolDB
         {
             foreach (var win in Container.winCollection) {//судя по всему придётся переделать это на switch (sry)
                 if (((Window)win).ToString().Contains((sender as Button).Content.ToString())) {
-                    (win as Window).Show();
+                    //Container.markWindow = (win as Window);
+                    Container.markWindow.Show();
                     break;
                 }
             }
