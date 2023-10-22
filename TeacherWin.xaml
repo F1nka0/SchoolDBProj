@@ -1,0 +1,23 @@
+﻿<Window x:Class="SchoolDB.TeacherWin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SchoolDB"
+        mc:Ignorable="d"
+        Title="TeacherWin" Height="450" Width="800"
+        Background="Gray">
+    <Grid>
+        <StackPanel>
+            <DataGrid Name="BaseGrid" PreviewKeyDown="BaseGrid_PreviewKeyDown" VerticalAlignment="Top"/>
+            <CheckBox Content="Update" Name="UpdateCB" Checked="UpdateCB_Checked" Unchecked="UpdateCB_Unchecked"></CheckBox>
+            <DockPanel>
+                <TextBox IsEnabled="False" HorizontalAlignment="Left" Name="ID">Id</TextBox>
+                <TextBox Name="SubjectName" HorizontalAlignment="Left" Margin="10,0,10,0">Subject name</TextBox>
+                <TextBox Name="TeacherName" HorizontalAlignment="Left">Teacher's name</TextBox>
+                <TextBox Name="ScheduleTB" Margin="10,0,0,0" HorizontalAlignment="Left">Schedule (Optional)</TextBox>
+                <Button Name="Commit" Click="Commit_Click" HorizontalAlignment="Left" Margin="10,0,10,0">Commit</Button>
+            </DockPanel>
+        </StackPanel>
+    </Grid>
+</Window>

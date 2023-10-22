@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -21,10 +22,25 @@ namespace SchoolDB
     /// </summary>
     /// 
     public class Container {
+        public Container()
+        {
+            windows.Add("Lesson",typeof(LessonWin));
+            windows.Add("Mark", typeof(MarkWin));
+            //windows.Add("Palor", typeof(PalorWin));
+            //windows.Add("Pupil",typeof(PupilWin));
+            //windows.Add("ReportCard",typeof(ReportCardWin));
+            //windows.Add("Schedule", typeof(ScheduleWin));
+            windows.Add("Teacher", typeof(TeacherWin));
+        }
+        private static Lesson LessonWin = new Lesson();
         private static MarkWin MarkWin = new MarkWin();
         public static MainWindow mainWindow = new MainWindow();
         public static SchoolDBEntities context = new SchoolDBEntities();
-        public static Window markWindow { get { return new MarkWin(); } set { markWindow = value; } }
+        private Hashtable windows = new Hashtable();
+        public Window this[string index] {
+            get { return Activator.CreateInstance(windows[index] as Type) as Window; }
+            set { windows[index] = value; } 
+        }
         public static WindowCollection winCollection = Application.Current.Windows;
     }
     public class TableInfo {
@@ -42,6 +58,7 @@ namespace SchoolDB
     }
     public partial class MainWindow : Window
     {
+
         public static readonly DependencyProperty TextProperty;
         
         static MainWindow() {
@@ -58,6 +75,7 @@ namespace SchoolDB
             grid.Loaded += InitList;
             Tables.SelectionChanged += OnTableSelected;
         }
+        Container containerObj = new Container();
         private async void InitList(object sender,EventArgs e) {
             IEnumerable<Table> teachers = await Task.Run(() => { return Dispatcher.Invoke<IEnumerable<Table>>(()=> { return Container.context.Database.SqlQuery<Table>("SELECT name FROM sys.tables"); }); });
             Text = teachers.ToList();
@@ -87,13 +105,8 @@ namespace SchoolDB
         }
         private async void AlterButton_Click(object sender, RoutedEventArgs e)
         {
-            foreach (var win in Container.winCollection) {//судя по всему придётся переделать это на switch (sry)
-                if (((Window)win).ToString().Contains((sender as Button).Content.ToString())) {
-                    //Container.markWindow = (win as Window);
-                    Container.markWindow.Show();
-                    break;
-                }
-            }
+            containerObj[(sender as Button).Content.ToString()].Show();
+
         }
     }
 }
