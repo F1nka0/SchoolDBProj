@@ -12,11 +12,26 @@
         <DataGrid Name="BaseGrid" PreviewKeyDown="BaseGrid_PreviewKeyDown" VerticalAlignment="Top"/>
             <CheckBox Content="Update" Name="UDTCB" Checked="UDTCB_Checked" Unchecked="UDTCB_Unchecked"></CheckBox>
             <DockPanel>
-                <TextBox IsEnabled="False" HorizontalAlignment="Left" Margin="0,0,10,0" Name="ID">Id</TextBox>
-                <TextBox Name="MarkTB" HorizontalAlignment="Left">Mark</TextBox>
-                <TextBox Name="DateOfMarkTB" HorizontalAlignment="Left" Margin="10,0,10,0">Date of mark</TextBox>
-                <TextBox Name="RCFK2TB" HorizontalAlignment="Left">Report card (optional)</TextBox>
-                <Button Name="Commit" Click="Commit_Click" HorizontalAlignment="Left" Margin="10,0,10,0"> Commit</Button>
+
+                <StackPanel Margin="0,0,10,0">
+                    <Label>Id</Label>
+                    <TextBox IsEnabled="False" Name="ID" HorizontalAlignment="Stretch"></TextBox>
+                </StackPanel>
+                <StackPanel Margin="0,0,10,0">
+                    <Label>Mark</Label>
+                    <TextBox Name="MarkTB" HorizontalAlignment="Stretch"></TextBox>
+                </StackPanel>
+                <StackPanel Margin="0,0,10,0">
+                    <Label>Date of mark</Label>
+                    <TextBox Name="DateOfMarkTB" HorizontalAlignment="Stretch"></TextBox>
+                </StackPanel>
+
+                <StackPanel Margin="0,0,10,0">
+                    <Label>Report card (optional)</Label>
+                    <TextBox Name="RCFK2TB" HorizontalAlignment="Stretch"></TextBox>
+                </StackPanel>
+                
+                <Button Name="Commit" Click="Commit_Click" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,10,0"> Commit</Button>
             </DockPanel>
         </StackPanel>
     </Grid>

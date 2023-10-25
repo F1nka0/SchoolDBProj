@@ -41,63 +41,63 @@ namespace SchoolDB
             }
 
         }
-        
+        private void ResetTBColors()
+        {
+            UDTCB.Background = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+            RCFK2TB.Background = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+            MarkTB.Background = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+        }
         public void UpdateGrid() {
             BaseGrid.ItemsSource = Container.context.Database.SqlQuery<Mark>("select * from Mark").ToList();
             BaseGrid.UpdateLayout();
         }
         private void Commit_Click(object sender, RoutedEventArgs e)
         {
+            ResetTBColors();
             int mark;
             DateTime dateTime = DateTime.Now;
             int index;
+            int idHolder;
             ReportCard rc=null;
-            int.TryParse(RCFK2TB.Text, out index);
-            if (int.TryParse(MarkTB.Text, out mark) && DateTime.TryParse(DateOfMarkTB.Text, out dateTime)) {
-                try {
-                    if(RCFK2TB.Text != "Report card (optional)")
-                    rc = Container.context.ReportCard.FirstOrDefault(it=>it.ID == index);
-                } catch (ArgumentNullException) {
+            if (!int.TryParse(RCFK2TB.Text, out index)&& RCFK2TB.Text!="") { RCFK2TB.Background= new SolidColorBrush(Color.FromRgb(255, 0, 0)); return; }
+            if (!int.TryParse(MarkTB.Text, out mark)||mark<1) { 
+            MarkTB.Background= new SolidColorBrush(Color.FromRgb(255, 0, 0));
+                return;
+            }
+            if (!DateTime.TryParse(DateOfMarkTB.Text, out dateTime)) { 
+                DateOfMarkTB.Background= new SolidColorBrush(Color.FromRgb(255, 0, 0));
+                return;
+            }
+            int[] dateParts = DateOfMarkTB.Text.Split(new char[]{ ' ',':','/' },StringSplitOptions.RemoveEmptyEntries).Take(6).Select(it => int.Parse(it)).ToArray();
+
+
+            if (!(bool)UDTCB.IsChecked)
+            {
+                Container.context.Mark.Add(new Mark() { Mark1 = mark, ReportCard = rc, DateOfMark = new DateTime(dateParts[2], dateParts[1], dateParts[0], dateParts[3], dateParts[4], dateParts[5]) });
+                
+            }
+            else {
+                int.TryParse(ID.Text, out idHolder);
+                Mark mark1 = Container.context.Mark.FirstOrDefault(it => it.ID == idHolder);
+                if (mark1 == null) { 
+                    ID.Background = new SolidColorBrush(Color.FromRgb(255, 255, 255));
                     return;
                 }
-                int[] dateParts = DateOfMarkTB.Text.Split(new char[] { ' ', ':', '/' }, StringSplitOptions.RemoveEmptyEntries).Take(6).Select(it => int.Parse(it)).ToArray();
-                Container.context.Mark.Add(new Mark() { Mark1=mark,ReportCard=rc,DateOfMark= new DateTime(dateParts[2], dateParts[1], dateParts[0], dateParts[3], dateParts[4], dateParts[5]) });
-                Container.context.SaveChanges();
-                UpdateGrid();
+                mark1.Mark1 = mark;
+                mark1.ReportCard= rc;
+                mark1.DateOfMark = new DateTime(dateParts[2], dateParts[1], dateParts[0], dateParts[3], dateParts[4], dateParts[5]);
             }
+            Container.context.SaveChanges();
+            UpdateGrid();
+            ResetTBColors();
         }
-        private void Update() {//get done 
-            try
-            {
-                Mark mark;
-                int markNum;//
-                DateTime dateTime = DateTime.Now;//
-                int index;
-                ReportCard rc = null;
-                if ((bool)UDTCB.IsChecked)
-                {
-                    mark = Container.context.Mark.First(it => it.ID == int.Parse(ID.Text));
-                    mark.ReportCardFK2 = int.Parse(RCFK2TB.Text);
-                    mark.Mark1 = int.Parse(MarkTB.Text);
-                    int.TryParse(RCFK2TB.Text, out index);
-                    if (int.TryParse(MarkTB.Text, out markNum) && DateTime.TryParse(DateOfMarkTB.Text, out dateTime))
-                    {
-                        try
-                        {
-                            if (RCFK2TB.Text != "Report card (optional)")
-                            rc = Container.context.ReportCard.FirstOrDefault(it => it.ID == index);
-                        }
-                        catch (ArgumentNullException)
-                        {
-                            return;
-                        }
-                        int[] dateParts = DateOfMarkTB.Text.Split(new char[] { ' ', ':', '/' }, StringSplitOptions.RemoveEmptyEntries).Take(6).Select(it => int.Parse(it)).ToArray();
-                        dateTime = new DateTime(dateParts[2], dateParts[1], dateParts[0], dateParts[3], dateParts[4], dateParts[5]);
-                    }
-                }
-            }
-            finally{}
+        private void Update()
+        {
+
+        
         }
+                
+        
         private void UDTCB_Checked(object sender, RoutedEventArgs e)
         {
             ID.IsEnabled= true;
@@ -109,21 +109,3 @@ namespace SchoolDB
         }
     }
 }
-
-//CellEditEnding="BaseGrid_SelectedCellsChanged"
-
-//{
-//    try
-//    {
-
-//        //log.WriteLine(b);
-//        //System.Diagnostics.Debug.WriteLine(mark.DateOfMark);
-//        Mark mark = Container.context.Mark.Where(it => it.ID == ((Mark)(((DataGrid)(sender)).CurrentItem)).ID).First();
-//        var b = (e.EditingElement.ToString().Substring(e.EditingElement.ToString().IndexOf(' ')));//e.Row);//SelectedIndex
-//        int[] dateParts = b.Split(new char[] { ' ', ':', '/' }, StringSplitOptions.RemoveEmptyEntries).Take(6).Select(it => int.Parse(it)).ToArray();
-//        mark.DateOfMark = new DateTime(dateParts[2], dateParts[0], dateParts[1], dateParts[3], dateParts[4], dateParts[5]);// = b.DateOfMark;
-//        Container.context.SaveChanges();
-//    }
-//    catch (InvalidOperationException){ 
-
-//    }

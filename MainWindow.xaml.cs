@@ -24,12 +24,12 @@ namespace SchoolDB
     public class Container {
         public Container()
         {
-            windows.Add("Lesson",typeof(LessonWin));
+            windows.Add("Lesson",typeof(UnavailableWin));
+            windows.Add("Palor", typeof(UnavailableWin));
             windows.Add("Mark", typeof(MarkWin));
-            //windows.Add("Palor", typeof(PalorWin));
-            //windows.Add("Pupil",typeof(PupilWin));
-            //windows.Add("ReportCard",typeof(ReportCardWin));
-            //windows.Add("Schedule", typeof(ScheduleWin));
+            windows.Add("Pupil",typeof(PupilWin));
+            windows.Add("ReportCard",typeof(UnavailableWin));
+            windows.Add("Schedule", typeof(UnavailableWin));
             windows.Add("Teacher", typeof(TeacherWin));
         }
         private static Lesson LessonWin = new Lesson();

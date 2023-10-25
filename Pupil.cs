@@ -7,6 +7,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using SchoolDB;
+
 namespace SchoolDB
 {
     using System;
@@ -22,9 +24,10 @@ namespace SchoolDB
         public int ID { get; set; }
         public string PupilName { get; set; }
         public int Grade { get; set; }
-        public Nullable<int> PupilFK { get; set; }
+        public Nullable<int> PupilFK { get; set; }// references lesson
     
         public virtual Lesson Lesson { get; set; }
         public virtual ICollection<ReportCard> ReportCard { get; set; }
     }
 }
+

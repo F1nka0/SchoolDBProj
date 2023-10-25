@@ -87,6 +87,9 @@
     <Compile Include="Pupil.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="PupilWin.xaml.cs">
+      <DependentUpon>PupilWin.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ReportCard.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -98,6 +101,9 @@
     </Compile>
     <Compile Include="TeacherWin.xaml.cs">
       <DependentUpon>TeacherWin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UnavailableWin.xaml.cs">
+      <DependentUpon>UnavailableWin.xaml</DependentUpon>
     </Compile>
     <Page Include="LessonWin.xaml">
       <SubType>Designer</SubType>
@@ -119,7 +125,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="PupilWin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="TeacherWin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UnavailableWin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
