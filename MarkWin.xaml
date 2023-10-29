@@ -23,7 +23,8 @@
                 </StackPanel>
                 <StackPanel Margin="0,0,10,0">
                     <Label>Date of mark</Label>
-                    <TextBox Name="DateOfMarkTB" HorizontalAlignment="Stretch"></TextBox>
+                    
+                    <DatePicker  Name="DatePicker" SelectedDateChanged="DatePicker_SelectedDateChanged"/>
                 </StackPanel>
 
                 <StackPanel Margin="0,0,10,0">

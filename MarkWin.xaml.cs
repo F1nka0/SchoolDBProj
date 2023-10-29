@@ -22,6 +22,7 @@ namespace SchoolDB
     /// </summary>
     public partial class MarkWin : Window
     {
+        bool dateTimePicked;
         public MarkWin()
         {
             InitializeComponent();
@@ -41,11 +42,11 @@ namespace SchoolDB
             }
 
         }
-        private void ResetTBColors()
+        private void ResetTBColors(params Control[] controls)
         {
-            UDTCB.Background = new SolidColorBrush(Color.FromRgb(255, 255, 255));
-            RCFK2TB.Background = new SolidColorBrush(Color.FromRgb(255, 255, 255));
-            MarkTB.Background = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+            foreach (Control c in controls) { 
+            c.Background = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+            }
         }
         public void UpdateGrid() {
             BaseGrid.ItemsSource = Container.context.Database.SqlQuery<Mark>("select * from Mark").ToList();
@@ -53,6 +54,7 @@ namespace SchoolDB
         }
         private void Commit_Click(object sender, RoutedEventArgs e)
         {
+            
             ResetTBColors();
             int mark;
             DateTime dateTime = DateTime.Now;
@@ -64,16 +66,11 @@ namespace SchoolDB
             MarkTB.Background= new SolidColorBrush(Color.FromRgb(255, 0, 0));
                 return;
             }
-            if (!DateTime.TryParse(DateOfMarkTB.Text, out dateTime)) { 
-                DateOfMarkTB.Background= new SolidColorBrush(Color.FromRgb(255, 0, 0));
-                return;
-            }
-            int[] dateParts = DateOfMarkTB.Text.Split(new char[]{ ' ',':','/' },StringSplitOptions.RemoveEmptyEntries).Take(6).Select(it => int.Parse(it)).ToArray();
-
-
+            if (!dateTimePicked) { DatePicker.Background = new SolidColorBrush(Color.FromRgb(255, 0, 0)); return; }
+            if (DatePicker.SelectedDate == default(DateTime)) { DatePicker.Background = new SolidColorBrush(Color.FromRgb(255, 0, 0)); return; }
             if (!(bool)UDTCB.IsChecked)
             {
-                Container.context.Mark.Add(new Mark() { Mark1 = mark, ReportCard = rc, DateOfMark = new DateTime(dateParts[2], dateParts[1], dateParts[0], dateParts[3], dateParts[4], dateParts[5]) });
+                Container.context.Mark.Add(new Mark() { Mark1 = mark, ReportCard = rc, DateOfMark = (DateTime)DatePicker.SelectedDate });
                 
             }
             else {
@@ -85,7 +82,7 @@ namespace SchoolDB
                 }
                 mark1.Mark1 = mark;
                 mark1.ReportCard= rc;
-                mark1.DateOfMark = new DateTime(dateParts[2], dateParts[1], dateParts[0], dateParts[3], dateParts[4], dateParts[5]);
+                mark1.DateOfMark = (DateTime)DatePicker.SelectedDate;
             }
             Container.context.SaveChanges();
             UpdateGrid();
@@ -106,6 +103,11 @@ namespace SchoolDB
         private void UDTCB_Unchecked(object sender, RoutedEventArgs e)
         {
             ID.IsEnabled = false;
+        }
+
+        private void DatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            dateTimePicked = true;
         }
     }
 }

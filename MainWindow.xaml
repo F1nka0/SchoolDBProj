@@ -20,7 +20,6 @@
                 </ListBox.ItemTemplate>
             </ListBox>
             <DataGrid Name="SelectedData" Background="LightGray" MaxWidth="500px" HorizontalAlignment="Left"></DataGrid>
-            <TextBlock HorizontalAlignment="Left" Background="red" Name="debugText" TextWrapping="Wrap" Text="TextBlock" />
         </DockPanel>
     </Grid>
 </Window>

@@ -32,28 +32,12 @@ namespace SchoolDB
             windows.Add("Schedule", typeof(UnavailableWin));
             windows.Add("Teacher", typeof(TeacherWin));
         }
-        private static Lesson LessonWin = new Lesson();
-        private static MarkWin MarkWin = new MarkWin();
         public static MainWindow mainWindow = new MainWindow();
         public static SchoolDBEntities context = new SchoolDBEntities();
         private Hashtable windows = new Hashtable();
         public Window this[string index] {
             get { return Activator.CreateInstance(windows[index] as Type) as Window; }
             set { windows[index] = value; } 
-        }
-        public static WindowCollection winCollection = Application.Current.Windows;
-    }
-    public class TableInfo {
-        public TableInfo(string name)
-        {
-
-            Name = name;
-
-        }
-        public string Name { get; set; }
-        public override string ToString()
-        {
-            return Name;
         }
     }
     public partial class MainWindow : Window
@@ -84,7 +68,7 @@ namespace SchoolDB
         private async void OnTableSelected(object sender, SelectionChangedEventArgs e) {
             IEnumerable<object> tables = null;
             var b = Dispatcher.Invoke(() => { return ((Table)Tables.SelectedItem).Name; });
-            switch (debugText.Text = Dispatcher.Invoke(() => { return Tables.SelectedItem as Table; }).Name.ToString())
+            switch (Dispatcher.Invoke(() => { return Tables.SelectedItem as Table; }).Name.ToString())
             {
                 #region DO NOT OPEN UNDER ANY CIRCUMSTANCES
                 case "Schedule": tables = await (Task.Run(() => { return Container.context.Database.SqlQuery<Schedule>($"select * from {b}"); })); break;

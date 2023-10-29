@@ -32,8 +32,9 @@ namespace SchoolDB
         }
         private void Commit_Click(object sender, RoutedEventArgs e)
         {
+            int holder = 0;
             List<Schedule> referencingSchedule=null;
-            if (ScheduleTB.Text!=""&& ScheduleTB.Text != "Schedule (Optional)") {
+            if (ScheduleTB.Text!=""&&int.TryParse(ScheduleTB.Text,out holder)) {
                 referencingSchedule = FindSchedule();
                 if (referencingSchedule == null) {
                     ScheduleTB.Text = "INCORRECT ID";

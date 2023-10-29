@@ -12,11 +12,23 @@
             <DataGrid Name="BaseGrid" PreviewKeyDown="BaseGrid_PreviewKeyDown" VerticalAlignment="Top"/>
             <CheckBox Content="Update" Name="UpdateCB" Checked="UpdateCB_Checked" Unchecked="UpdateCB_Unchecked"></CheckBox>
             <DockPanel>
-                <TextBox IsEnabled="False" HorizontalAlignment="Left" Name="ID">Id</TextBox>
-                <TextBox Name="SubjectName" HorizontalAlignment="Left" Margin="10,0,10,0">Subject name</TextBox>
-                <TextBox Name="TeacherName" HorizontalAlignment="Left">Teacher's name</TextBox>
-                <TextBox Name="ScheduleTB" Margin="10,0,0,0" HorizontalAlignment="Left">Schedule (Optional)</TextBox>
-                <Button Name="Commit" Click="Commit_Click" HorizontalAlignment="Left" Margin="10,0,10,0">Commit</Button>
+                <StackPanel>
+                    <Label>Id</Label>
+                    <TextBox IsEnabled="False" Name="ID" HorizontalAlignment="Stretch"></TextBox>
+                </StackPanel>
+                <StackPanel Margin="10,0,10,0">
+                    <Label>Subject name</Label>
+                    <TextBox Name="SubjectName"  HorizontalAlignment="Stretch"></TextBox>
+                </StackPanel>
+                <StackPanel>
+                    <Label>Teacher's name</Label>
+                    <TextBox Name="TeacherName" HorizontalAlignment="Stretch"></TextBox>
+                </StackPanel>
+                <StackPanel Margin="10,0,10,0">
+                    <Label>Schedule (Optional)</Label>
+                    <TextBox Name="ScheduleTB"  HorizontalAlignment="Stretch"></TextBox>
+                </StackPanel>
+                <Button Name="Commit" Click="Commit_Click" VerticalAlignment="Center" HorizontalAlignment="Left" >Commit</Button>
             </DockPanel>
         </StackPanel>
     </Grid>
